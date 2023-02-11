@@ -1,0 +1,18 @@
+name: Deploy on push to main
+'on':
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Build
+        uses: actions/checkout@v2
+        run: npm i && npm run build
+      - name: Deploy to GH pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
